@@ -3,14 +3,12 @@ package Assignments.TextFormatting;
 public class FormatFactory {
     public static Formatter getFormatter(String name) {
         switch (name) {
-            case "UppercaseFormatter":
-            return new UppercaseFormatter();
-            case "LowercaseFormatter":
-                return new LovercaseFormatter();
-            case "DashFormatter":
-                return new DashFormatter();
-            default:
-                throw new IllegalArgumentException("Unknown formatters: " + name);
+            case "UppercaseFormatter": return new UppercaseFormatter();
+            case "LowercaseFormatter": return new LovercaseFormatter();
+            case "DashFormatter": return new DashFormatter();
+            case "ReverseFormatter": return new ReverseFormatter();
+            case "CamelCaseFormatter": return new CamelCaseFormatter();
+            default: throw new IllegalArgumentException("Unknown formatters: " + name);
 
         }
     }
