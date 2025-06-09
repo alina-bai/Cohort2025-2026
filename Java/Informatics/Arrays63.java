@@ -11,7 +11,7 @@ public class Arrays63 {
         int[] array = new int[n];
 
         for (int i =0; i< n; i++) {
-            array [i] = scanner.nextInt()
+            array [i] = scanner.nextInt();
         }
         for(int i=0; i<n; i+= 2) {
             System.out.println(array[i] + i);
