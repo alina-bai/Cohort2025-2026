@@ -1,17 +1,18 @@
 package Week11;
 
 public class RemoveDublicatedArray {
-    public int[][] construct2DArray(int[] original, int m, int n) {
-        if (original.length != m * n ) {
-            return new int[0][0];
-        }
-        int [][] result = new int[m][n];
-        for (int i = 0; i < original.length; i++) {
-            result[i / n ] [i % n] = original[i];
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
 
-        }
-        return result;
+        int index = 1;  // позиция, куда вставлять следующий уникальный элемент
 
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[i - 1]) {
+                nums[index] = nums[i];
+                index++;
+            }
+        }
+
+        return index;
     }
-
 }
