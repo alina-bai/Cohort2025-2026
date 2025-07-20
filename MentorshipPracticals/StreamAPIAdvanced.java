@@ -1,6 +1,7 @@
 //Exercise 14: Stream API -Advanced with Collectors
 
 import javax.xml.namespace.QName;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,5 +31,33 @@ public static Map<String, Double> calculateAverageAgeByCity(List<Person> people)
     return people.stream()
             .collect(Collectors.groupingBy(
                     Person::getCity,
-                    Collectors.avaragingInt(Person::getAge)));
+                    Collectors.avaragingInt(Person::getAge)
+            ));
+}
+
+//Exercise 15: CustomComparator and Collections.sort()
+static class Student {
+    private String name;
+    private double grade;
+    private int age;
+
+    public Student(String name, double grade, int age) {
+        this.name = name;
+        this.grade = grade;
+        this.age = age;
+    }
+    public String getName() {return name;}
+    public double getGrade() { return grade;}
+    public int getAge(){ return age;}
+
+    @Override
+    public String toString(){
+        return String.format("Student{name='%s', grade=%.1f, age=%d}", name,grade, age)
+    }
+}
+public static void sortStudents(List<Student>students) {
+    students.sqrt(
+            Comparator.comparingDouble(Student::grade).reversed()
+                    .thenComparingInt(Student::age)
+    );
 }
