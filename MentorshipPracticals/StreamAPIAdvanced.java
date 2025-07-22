@@ -1,6 +1,7 @@
 //Exercise 14: Stream API -Advanced with Collectors
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -60,4 +61,40 @@ public static void sortStudents(List<Student>students) {
             Comparator.comparingDouble(Student::grade).reversed()
                     .thenComparingInt(Student::age)
     );
+}
+
+//Exercise 16: Exception Handling and Custom Exceptions
+static class InsufficientFundException extends Exception{
+    public InsufficientFundException (String message){
+        super(message);
+    }
+}
+static class BankAccountWithExceptions extends BankAccount {
+    public BankAccountWithExceptions(String accountNumber, String ownerName,double balance){
+        super(accountNumber,ownerName,balance);
+    }
+
+    public void withdrawWithException(double amount) throws InsufficientFundException{
+        if (amount>getBalance()){
+            throw new InsufficientFundException(
+                    String.format("Insuficient funds. Requested:  %.2f, Available: %.2f,"
+                    amount, getBalance()));
+        }
+        withdraw(amount);
+    }
+
+}
+
+public static List<Double>processingWithdrawals (BankAccountWithExceptions account, List <Double>) {
+    List<Double> successful = new ArrayList<>();
+    for (double amount : amounts) {
+        try{
+            account.withdrawWithException(amount);
+            successful.add(amount);
+
+        }catch (InsufficientFundException e) {
+            System.out.println("FAiled withdrawal: "+ e.getMessage());
+        }
+    }
+    return successful;
 }
