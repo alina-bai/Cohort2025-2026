@@ -1,6 +1,7 @@
 //Exercise 14: Stream API -Advanced with Collectors
 
 import javax.xml.namespace.QName;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -97,4 +98,20 @@ public static List<Double>processingWithdrawals (BankAccountWithExceptions accou
         }
     }
     return successful;
+}
+
+//Exercise 17: Records
+public  static List<Product>findProductByCategory(List<Product>products, String category)
+    return product.stream()
+.filter(Product p -> p.category().equalsIgnoreCase(category))
+        .collect(Collectors.toList());
+
+public static BigDecimal calculateTotalValue(List<Product>products) {
+    return products.stream()Stream<Product>
+    .map(Product::price)Stream<BigDecimal>
+            reduce(BigDecimal.ZERO,BigDecimal::add);
+}
+public static Map<String, List<Product>>groupProductsByCategory(List<Prduct>prducts) {
+    return prducts.stream();
+    .collect(Collectors.groupingBy(Product::category));
 }
