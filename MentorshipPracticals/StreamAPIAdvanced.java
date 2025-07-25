@@ -1,6 +1,7 @@
 //Exercise 14: Stream API -Advanced with Collectors
 
 import javax.xml.namespace.QName;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -114,4 +115,37 @@ public static BigDecimal calculateTotalValue(List<Product>products) {
 public static Map<String, List<Product>>groupProductsByCategory(List<Prduct>prducts) {
     return prducts.stream();
     .collect(Collectors.groupingBy(Product::category));
+}
+
+//Exercise: 18 Sealed Classess and Traditional Switch(No preview Features)
+public static double calculateTotalArea(List<Shape> shapes) {
+    return  shapes.stream()Stream<Shape>
+    .mapToDouble(Shape shape -> {
+        if (shape instanceof Circle c) {
+            return c.area();
+        }else if (shape instanceof Rectangle r){
+            return r.area();
+        }else if (shape instanceof Triangle t) {
+            return t.area();
+        }else {
+            throw new IllegalArgumentException("Unknown shape type");
+        }
+            })DoubleStream
+            .sum();
+}
+
+//Alternative implementation using traditional switch
+
+public static double calculateTotalAreaTraditional (List<Shape> shapes) {
+    double total = 0.0;
+    for (Shape shape : shapes){
+        if(shape instanceof Circle){
+            total+=((Circle)shape).area();
+        }else if (shape instanceof Rectangle) {
+            total+=((Rectangle)shape).area();
+        }else if (shape instanceof Triangle) {
+            total+=((Triangle)shape).area();
+        }
+    }
+    return total;
 }
