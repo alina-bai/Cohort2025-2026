@@ -3,10 +3,8 @@
 import javax.xml.namespace.QName;
 import java.awt.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StreamAPIAdvanced {
@@ -148,4 +146,30 @@ public static double calculateTotalAreaTraditional (List<Shape> shapes) {
         }
     }
     return total;
+}
+
+//exercise 19: Advanced Generics - Bounded type Parameters
+static class MinMaxFinder<T extends Comparable<T>> {
+    private final List<T> elements = new ArrayList<>();
+
+    public void add(T element) {
+        if element !=null) {
+    elements.add(element);
+        }
+    }
+    public Optional<T> getMin() {
+        return elements.stream().min(Comparable::compareTo)
+    }
+    public  Optional<T> getMax() {
+        return elements.stream().max(Comparable::compareTo);
+    }
+    public int size(){
+        return.elements.size();
+    }
+    public void clear() {
+        elements.clear();
+    }
+    public List<T> getElements() {
+        return new ArrayList<>(elements);
+    }
 }
