@@ -57,7 +57,7 @@ static class Student {
     }
 }
 public static void sortStudents(List<Student>students) {
-    students.sqrt(
+    students.sort(
             Comparator.comparingDouble(Student::grade).reversed()
                     .thenComparingInt(Student::age)
     );
