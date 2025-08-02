@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ class MentorshipExercises {
     }
 
     //Exercise 4:  Array Proccessing
-    public static Integer findsecondLargest(int[] array) {
+    public static Integer findSecondLargest(int[] array) {
         if (array == null || array.length < 2) {
             return null;
         }
@@ -187,7 +188,7 @@ class MentorshipExercises {
 
         //#9 ArrayList and Enhanced For Loop
         public class ArrayListAndEnhancedFOrLoop {
-            public static List<String> filterstrings(List<String> strings) {
+            public static List<String> filterStrings(List<String> strings) {
                 List<String> result = new ArrayList<>();
                 for (String str : strings) {
                     if (str != null && str.length() > 3 && Character.isUpperCase(str.charAt(0))) {
@@ -328,167 +329,260 @@ class MentorshipExercises {
 }
 
 //Exercise 16: Exception Handling and Custom Exceptions
-class InsufficientFundException extends Exception{
-    public InsufficientFundException (String message){
+class InsufficientFundException extends Exception {
+    public InsufficientFundException(String message) {
         super(message);
     }
 
-public class BankAccountWithExceptions extends BankAccount {
-    public BankAccountWithExceptions(String accountNumber, String ownerName, double balance) {
-        super(accountNumber, ownerName, balance);
-    }
-
-    public void withdrawWithException(double amount) throws InsufficientFundException {
-        if (amount > getBalance()) {
-            throw new InsufficientFundException(
-                    String.format("Insuficient funds. Requested:  %.2f, Available: %.2f",
-                            amount, getBalance()));
+    public class BankAccountWithExceptions extends BankAccount {
+        public BankAccountWithExceptions(String accountNumber, String ownerName, double balance) {
+            super(accountNumber, ownerName, balance);
         }
-        withdraw(amount);
-    }
 
-    public static List<Double> processingWithdrawals(BankAccountWithExceptions account, List<Double> amounts) {
-        List<Double> successful = new ArrayList<>();
-        for (double amount : amounts) {
-            try {
-                account.withdrawWithException(amount);
-                successful.add(amount);
+        public void withdrawWithException(double amount) throws InsufficientFundException {
+            if (amount > getBalance()) {
+                throw new InsufficientFundException(
+                        String.format("Insuficient funds. Requested:  %.2f, Available: %.2f",
+                                amount, getBalance()));
+            }
+            withdraw(amount);
+        }
 
-            } catch (InsufficientFundException e) {
-                System.out.println("FAiled withdrawal: " + e.getMessage());
+        public static List<Double> processingWithdrawals(BankAccountWithExceptions account, List<Double> amounts) {
+            List<Double> successful = new ArrayList<>();
+            for (double amount : amounts) {
+                try {
+                    account.withdrawWithException(amount);
+                    successful.add(amount);
+
+                } catch (InsufficientFundException e) {
+                    System.out.println("FAiled withdrawal: " + e.getMessage());
+                }
+            }
+            return successful;
+        }
+
+        public static List<Product> findProductByCategory(List<Product> products, String category) {
+            return products.stream()
+                    .filter((Product p) -> p.category().equalsIgnoreCase(category))
+                    .collect(Collectors.toList());
+        }
+
+        public static BigDecimal calculateTotalValue(List<Product> products) {
+            return products.stream()
+                    .map(Product::price)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+
+        public static Map<String, List<Product>> groupProductsByCategory(List<Product> products) {
+            return products.stream()
+                    .collect(Collectors.groupingBy(Product::category));
+        }
+
+        // Exercise 17: record
+        record Product(int id, String name, BigDecimal price, String category) {
+        }
+
+//        // Exercise 18: Sealed classes and Traditional Switch(No Preview Features
+//        public static double calculateTotalAreaTraditional(List<Shape> shapes) {
+//            double total = 0.0;
+//            for (Shape shape : shapes) {
+//                if (shape instanceof Circle) {
+//                    total += ((Circle) shape).area();
+//                } else if (shape instanceof Rectangle) {
+//                    total += ((Rectangle) shape).area();
+//                } else if (shape instanceof Triangle) {
+//                    total += ((Triangle) shape).area();
+//                }
+//            }
+//            return total;
+//        }
+////
+////
+//        public sealed implements Shape permits Circle, Rectangle, Triangle {
+//            double area();
+//        }
+////
+//        public final class Circle extends Shape {
+//            private final double radius;
+//
+//            public Circle(double radius) {
+//                this.radius = radius;
+//            }
+//
+//            @Override
+//            public double area() {
+//                return Math.PI * radius * radius;
+//            }
+//        }
+//
+//
+//        public final class Rectangle extends Shape {
+//            private final double width;
+//            private final double height;
+//
+//            public Rectangle(double width, double height) {
+//                this.width = width;
+//                this.height = height;
+//            }
+//
+//            @Override
+//            public double area() {
+//                return width * height;
+//            }
+//        }
+//
+//
+//        public final class Triangle extends Shape {
+//            private final double base;
+//            private final double height;
+//
+//            public Triangle(double base, double height) {
+//                this.base = base;
+//                this.height = height;
+//            }
+//
+//            @Override
+//            public double area() {
+//                return 0.5 * base * height;
+//            }
+//        }
+//
+//
+//
+
+//
+//        // Exercise 18: Sealed Classes and Traditional Switch (No preview features)
+//        public static double calculateTotalArea(List<Shape> shapes) {
+//            return shapes.stream()
+//                    .mapToDouble(shape -> {
+//                        if (shape instanceof Circle c) {
+//                            return c.area();
+//                        } else if (shape instanceof Rectangle r) {
+//                            return r.area();
+//                        } else if (shape instanceof Triangle t) {
+//                            return t.area();
+//                        } else {
+//                            throw new IllegalArgumentException("Unknown shape type");
+//                        }
+//                    })
+//                    .sum();
+//        }
+
+
+        // Exercise 19: Advanced Generics - Bounded type Parameters
+        static class MinMaxFinder<T extends Comparable<T>> {
+            private final List<T> elements = new ArrayList<>();
+
+            public void add(T element) {
+                if (element != null) {
+                    elements.add(element);
+                }
+            }
+
+            public Optional<T> getMin() {
+                return elements.stream().min(Comparator.naturalOrder());
+            }
+
+            public Optional<T> getMax() {
+                return elements.stream().max(Comparator.naturalOrder());
+            }
+
+            public int size() {
+                return elements.size();
+            }
+
+            public void clear() {
+                elements.clear();
+            }
+
+            public List<T> getElements() {
+                return new ArrayList<>(elements);
             }
         }
-        return successful;
-    }
-
-    public static List<Product> findProductByCategory(List<Product> products, String category) {
-        return products.stream()
-                .filter((Product p) -> p.category().equalsIgnoreCase(category))
-                .collect(Collectors.toList());
-    }
-
-    public static BigDecimal calculateTotalValue(List<Product> products) {
-        return products.stream()
-                .map(Product::price)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public static Map<String, List<Product>> groupProductsByCategory(List<Product> products) {
-        return products.stream()
-                .collect(Collectors.groupingBy(Product::category));
-    }
-
-    // Exercise 18: Sealed Classes and Traditional Switch (No preview features)
-    public static double calculateTotalArea(List<Shape> shapes) {
-        return shapes.stream()
-                .mapToDouble(shape -> {
-                    if (shape instanceof Circle c) {
-                        return c.area();
-                    } else if (shape instanceof Rectangle r) {
-                        return r.area();
-                    } else if (shape instanceof Triangle t) {
-                        return t.area();
-                    } else {
-                        throw new IllegalArgumentException("Unknown shape type");
-                    }
-                })
-                .sum();
-    }
-
-    public static double calculateTotalAreaTraditional(List<Shape> shapes) {
-        double total = 0.0;
-        for (Shape shape : shapes) {
-            if (shape instanceof Circle) {
-                total += ((Circle) shape).area();
-            } else if (shape instanceof Rectangle) {
-                total += ((Rectangle) shape).area();
-            } else if (shape instanceof Triangle) {
-                total += ((Triangle) shape).area();
-            }
-        }
-        return total;
-    }
-
-    // Exercise 19: Advanced Generics - Bounded type Parameters
-    static class MinMaxFinder<T extends Comparable<T>> {
-        private final List<T> elements = new ArrayList<>();
-
-        public void add(T element) {
-            if (element != null) {
-                elements.add(element);
-            }
-        }
-
-        public Optional<T> getMin() {
-            return elements.stream().min(Comparator.naturalOrder());
-        }
-
-        public Optional<T> getMax() {
-            return elements.stream().max(Comparator.naturalOrder());
-        }
-
-        public int size() {
-            return elements.size();
-        }
-
-        public void clear() {
-            elements.clear();
-        }
-
-        public List<T> getElements() {
-            return new ArrayList<>(elements);
-        }
-    }
 
 
-    // Exercise 17: record
-    record Product(String name, String category, BigDecimal price) {
-    }
 
-    // Exercise 18: Sealed classes
-    sealed interface Shape permits Circle, Rectangle, Triangle {
-        double area();
-    }
 
-    final class Circle implements Shape {
-        private final double radius;
 
-        public Circle(double radius) {
-            this.radius = radius;
-        }
+        public static void main(String[] args) {
+            //Test Exercise 1
+            System.out.println("Exercise 1: " + MentorshipExercises.calculateOperations(10, 5));
 
-        public double area() {
-            return Math.PI * radius * radius;
+            //Test Exercise 2
+            System.out.println("Exercise 2: 2024 is leap year "  + MentorshipExercises.isLeapYear(2024));
+
+            //Test Exercise 3
+            System.out.println("Exercise 3: " + MentorshipExercises.reverseString("Helloworld"));
+
+            //Test Exercise 4
+            System.out.println("Exercise 4: " + MentorshipExercises.findSecondLargest(new int[]{3,1,4,1,5,9,2}));
+
+            //Test Exercise 5
+            BankAccount account = new BankAccount("ACC-001", "John Doe", 50000);
+            account.withdraw(200);
+            System.out.println("Exercise 5: " + account);
+
+            //Test Exercise 8
+            MentorshipExercises.BankAccount.BasicGenerics.Pair<String, Integer> pair = new MentorshipExercises.BankAccount.BasicGenerics.Pair<>("Hello",42);
+            System.out.println("Exercise 8: " + pair);
+
+            //Test Exercise 9
+            List<String> strings = List.of("Apple","banana","Cherry","dog","Elephant");
+            System.out.println("Exercise 9: " + MentorshipExercises.BankAccount.ArrayListAndEnhancedFOrLoop.filterStrings(strings));
+
+            //Test Exercise 10
+            System.out.println("Exercise 10: Most frequent char in 'hello" + MentorshipExercises.BankAccount.findMostFrequentCharacter("hello"));
+
+            //Test Exercise 11
+            List<Number>numbers = List.of(1,2.5,3,4.7,5);
+            System.out.println("Exercise 1: Sum of numbers" + MentorshipExercises.BankAccount.sumNumbers(numbers));
+
+            //Test Exercise 12
+            System.out.println("Exercise 12: ");
+            MentorshipExercises.BankAccount.demonstrateLambdas();
+
+            //Test Exercise 13:
+            List<Integer> nums = List.of(1,2,3,4,5,7,8,9,10);
+            System.out.println("Exercise 13: " + MentorshipExercises.BankAccount.processNumbers(nums));
+
+            //Test Exercise 14
+            List<MentorshipExercises.Person> people = List.of(
+                    new MentorshipExercises.Person("Alice", 25, "New York"),
+                    new MentorshipExercises.Person("Bob", 30, "New York"),
+                    new MentorshipExercises.Person("Charlie", 35, "Boston"),
+                    new MentorshipExercises.Person("Diana", 28, "Boston")
+
+            );
+            System.out.println("Exercise 14: " + MentorshipExercises.calculateAverageAgeByCity(people));
+
+
+            //Test Exercise 17
+            List <Product> products = List.of(
+                    new Product(1, "Laptop", new BigDecimal(999.99), "Electronics"),
+                    new Product(2,"Book", new BigDecimal("29.99"), "Books"),
+                    new Product(3,"Phone", new BigDecimal(699.99), "Electronics")
+            );
+            System.out.println("Exercise 17: " + groupProductsByCategory(products));
+
+//            //Test Exercise 18
+//            List<Shape> shapes = List.of(
+//                    new Circle(5),
+//                    new Rectangle(4,6),
+//                    new Triangle(3,8)
+//            );
+//            System.out.println("Exercise 18: Total area = " + calculateTotalArea(shapes));
+
+
+            //Test Exercise 19
+            MinMaxFinder<Integer>finder = new MinMaxFinder<>();
+            finder.add(5);
+            finder.add(1);
+            finder.add(9);
+            finder.add(3);
+            System.out.println("Exercise 19: Min " + finder.getMin() + ", Max = " + finder.getMax());
+
         }
     }
-
-    final class Rectangle implements Shape {
-        private final double width;
-        private final double height;
-
-        public Rectangle(double width, double height) {
-            this.width = width;
-            this.height = height;
-        }
-
-        public double area() {
-            return width * height;
-        }
-    }
-
-    final class Triangle implements Shape {
-        private final double base;
-        private final double height;
-
-        public Triangle(double base, double height) {
-            this.base = base;
-            this.height = height;
-        }
-
-        public double area() {
-            return 0.5 * base * height;
-        }
-    }
-}
 }
 
