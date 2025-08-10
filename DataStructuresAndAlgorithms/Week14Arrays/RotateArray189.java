@@ -1,4 +1,4 @@
-package DataStructuresAndAlgorithms;
+package DataStructuresAndAlgorithms.Week14Arrays;
 
 public class RotateArray189 {
     public void rotate(int[] nums, int k) {
