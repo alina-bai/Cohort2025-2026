@@ -1,6 +1,5 @@
-package DataStructuresAndAlgorithms.Week14Arrays;
+package DataStructuresAndAlgorithms.Week15;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
