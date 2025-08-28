@@ -28,4 +28,30 @@ class SlidingWindow239 {
 
         return result;
     }
+
+    public static void main(String[] args) {
+        SlidingWindow239 sol = new SlidingWindow239();
+
+        // Пример 1
+        int[] nums1 = {1,3,-1,-3,5,3,6,7};
+        int k1 = 3;
+        int[] result1 = sol.maxSlidingWindow(nums1, k1);
+        System.out.println("Пример 1: " + Arrays.toString(result1));
+        // Ожидаем [3,3,5,5,6,7]
+
+        // Пример 2
+        int[] nums2 = {1};
+        int k2 = 1;
+        int[] result2 = sol.maxSlidingWindow(nums2, k2);
+        System.out.println("Пример 2: " + Arrays.toString(result2));
+        // Ожидаем [1]
+
+        // Пример 3
+        int[] nums3 = {9,10,9,-7,-4,-8,2,-6};
+        int k3 = 5;
+        int[] result3 = sol.maxSlidingWindow(nums3, k3);
+        System.out.println("Пример 3: " + Arrays.toString(result3));
+        // Ожидаем [10,10,9,2]
+    }
 }
+
