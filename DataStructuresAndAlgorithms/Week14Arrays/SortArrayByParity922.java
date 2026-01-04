@@ -1,6 +1,4 @@
-package DataStructuresAndAlgorithms;
-
-import static java.util.Collections.swap;
+package DataStructuresAndAlgorithms.Week14Arrays;
 
 public class SortArrayByParity922 {
     public int[] sortArrayByParityII(int[] A) {
