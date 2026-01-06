@@ -1,6 +1,4 @@
-package DataStructuresAndAlgorithms;
-
-import static java.util.Collections.swap;
+package DataStructuresAndAlgorithms.Week14Arrays;
 
 public class SortColors75 {
     public void sortColors (int[] nums ) {
