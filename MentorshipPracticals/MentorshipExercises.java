@@ -53,7 +53,7 @@ class MentorshipExercises {
     }
 
     //Exercise 5: Basic class and Encapsulation
-    public class BankAccount {
+    static class BankAccount {
 
         private final String accountNumber;
         private double balance;
@@ -334,10 +334,11 @@ class InsufficientFundException extends Exception {
         super(message);
     }
 
-    public class BankAccountWithExceptions extends BankAccount {
+    public class BankAccountWithExceptions extends MentorshipExercises.BankAccount {
         public BankAccountWithExceptions(String accountNumber, String ownerName, double balance) {
             super(accountNumber, ownerName, balance);
         }
+
 
         public void withdrawWithException(double amount) throws InsufficientFundException {
             if (amount > getBalance()) {
@@ -519,7 +520,7 @@ class InsufficientFundException extends Exception {
             System.out.println("Exercise 4: " + MentorshipExercises.findSecondLargest(new int[]{3,1,4,1,5,9,2}));
 
             //Test Exercise 5
-            BankAccount account = new BankAccount("ACC-001", "John Doe", 50000);
+            MentorshipExercises.BankAccount account = new MentorshipExercises.BankAccount("ACC-001", "John Doe", 50000);
             account.withdraw(200);
             System.out.println("Exercise 5: " + account);
 
